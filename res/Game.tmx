@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="1" height="1" tilewidth="1280" tileheight="720">
+ <tileset firstgid="1" name="BK" tilewidth="1280" tileheight="720">
+  <image source="I5s尺寸SAND副本.jpg" width="1280" height="720"/>
+ </tileset>
+ <layer name="场景背景层" width="1" height="1">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgAAAACAAC
+  </data>
+ </layer>
+ <objectgroup name="场景效果层" width="1" height="1">
+  <object name="粒子效果" x="344" y="277" width="70" height="46">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="游戏炮塔层" width="1" height="1">
+  <object name="炮塔1" x="650" y="295" width="78" height="67">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="461" y="23" width="78" height="67">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="场景骨骼动画层" width="1" height="1">
+  <object name="骨骼动画" x="225" y="383" width="66" height="31">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="场景怪物路线" width="1" height="1">
+  <object name="路线1" x="174" y="8">
+   <polyline points="0,0 -77,206 24,258 266,164 369,286 299,439 450,566 633,554 704,271 732,174 885,222 963,414 949,529 1030,590"/>
+  </object>
+ </objectgroup>
+</map>
