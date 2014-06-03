@@ -1,0 +1,110 @@
+
+texiao0.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+image 1
+  rotate: false
+  xy: 103, 305
+  size: 80, 74
+  orig: 80, 74
+  offset: 0, 0
+  index: -1
+image 10
+  rotate: false
+  xy: 91, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+image 11
+  rotate: false
+  xy: 98, 223
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+image 12
+  rotate: false
+  xy: 302, 389
+  size: 87, 86
+  orig: 87, 86
+  offset: 0, 0
+  index: -1
+image 13
+  rotate: false
+  xy: 2, 176
+  size: 93, 94
+  orig: 93, 94
+  offset: 0, 0
+  index: -1
+image 14
+  rotate: false
+  xy: 2, 375
+  size: 99, 100
+  orig: 99, 100
+  offset: 0, 0
+  index: -1
+image 15
+  rotate: true
+  xy: 185, 306
+  size: 73, 68
+  orig: 73, 68
+  offset: 0, 0
+  index: -1
+image 2
+  rotate: false
+  xy: 391, 394
+  size: 87, 81
+  orig: 87, 81
+  offset: 0, 0
+  index: -1
+image 3
+  rotate: false
+  xy: 205, 387
+  size: 95, 88
+  orig: 95, 88
+  offset: 0, 0
+  index: -1
+image 4
+  rotate: true
+  xy: 2, 272
+  size: 101, 94
+  orig: 101, 94
+  offset: 0, 0
+  index: -1
+image 5
+  rotate: false
+  xy: 97, 76
+  size: 73, 68
+  orig: 73, 68
+  offset: 0, 0
+  index: -1
+image 6
+  rotate: false
+  xy: 97, 146
+  size: 79, 75
+  orig: 79, 75
+  offset: 0, 0
+  index: -1
+image 7
+  rotate: false
+  xy: 2, 2
+  size: 87, 82
+  orig: 87, 82
+  offset: 0, 0
+  index: -1
+image 8
+  rotate: false
+  xy: 2, 86
+  size: 93, 88
+  orig: 93, 88
+  offset: 0, 0
+  index: -1
+image 9
+  rotate: false
+  xy: 103, 381
+  size: 100, 94
+  orig: 100, 94
+  offset: 0, 0
+  index: -1

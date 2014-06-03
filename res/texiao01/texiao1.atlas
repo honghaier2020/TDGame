@@ -1,0 +1,54 @@
+
+texiao1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+baozha_0000s_0000_----1
+  rotate: true
+  xy: 2, 2
+  size: 31, 35
+  orig: 31, 35
+  offset: 0, 0
+  index: -1
+baozha_0000s_0001_----2
+  rotate: true
+  xy: 129, 7
+  size: 42, 44
+  orig: 42, 44
+  offset: 0, 0
+  index: -1
+baozha_0000s_0002_----3
+  rotate: false
+  xy: 175, 10
+  size: 36, 39
+  orig: 36, 39
+  offset: 0, 0
+  index: -1
+baozha_0000s_0003_----4
+  rotate: false
+  xy: 213, 10
+  size: 35, 39
+  orig: 35, 39
+  offset: 0, 0
+  index: -1
+baozha_0000s_0004_----1
+  rotate: true
+  xy: 129, 51
+  size: 11, 119
+  orig: 11, 119
+  offset: 0, 0
+  index: -1
+baozha_0000s_0005_----2
+  rotate: true
+  xy: 2, 35
+  size: 12, 119
+  orig: 12, 119
+  offset: 0, 0
+  index: -1
+baozha_0000s_0006_----3
+  rotate: true
+  xy: 2, 49
+  size: 13, 125
+  orig: 13, 125
+  offset: 0, 0
+  index: -1

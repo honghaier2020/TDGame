@@ -1,0 +1,61 @@
+
+monster0.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jhhkg_0000s_0000_rshou
+  rotate: true
+  xy: 265, 332
+  size: 139, 245
+  orig: 139, 245
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0001_rjiao
+  rotate: true
+  xy: 434, 232
+  size: 98, 46
+  orig: 98, 46
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0002_rtui
+  rotate: false
+  xy: 197, 47
+  size: 91, 127
+  orig: 91, 127
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0003_tou
+  rotate: false
+  xy: 2, 218
+  size: 261, 253
+  orig: 261, 253
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0004_shenti
+  rotate: false
+  xy: 2, 2
+  size: 193, 214
+  orig: 193, 214
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0005_lshou
+  rotate: true
+  xy: 265, 176
+  size: 154, 167
+  orig: 154, 167
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0006_ljiao
+  rotate: true
+  xy: 383, 76
+  size: 98, 46
+  orig: 98, 46
+  offset: 0, 0
+  index: -1
+jhhkg_0000s_0007_ltui
+  rotate: false
+  xy: 290, 47
+  size: 91, 127
+  orig: 91, 127
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,61 @@
+
+monstre1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ljiao
+  rotate: false
+  xy: 216, 91
+  size: 66, 30
+  orig: 66, 30
+  offset: 0, 0
+  index: -1
+lshou
+  rotate: false
+  xy: 2, 36
+  size: 212, 210
+  orig: 212, 210
+  offset: 0, 0
+  index: -1
+ltui
+  rotate: true
+  xy: 252, 263
+  size: 85, 116
+  orig: 94, 116
+  offset: 0, 0
+  index: -1
+rjiao
+  rotate: false
+  xy: 2, 2
+  size: 70, 32
+  orig: 70, 32
+  offset: 0, 0
+  index: -1
+rshou
+  rotate: false
+  xy: 2, 248
+  size: 248, 247
+  orig: 248, 247
+  offset: 0, 0
+  index: -1
+rtui
+  rotate: false
+  xy: 216, 123
+  size: 68, 123
+  orig: 72, 124
+  offset: 0, 1
+  index: -1
+shenti
+  rotate: false
+  xy: 252, 350
+  size: 136, 145
+  orig: 136, 145
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 390, 355
+  size: 114, 140
+  orig: 114, 140
+  offset: 0, 0
+  index: -1

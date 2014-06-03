@@ -9,20 +9,71 @@
   </data>
  </layer>
  <objectgroup name="场景效果层" width="1" height="1">
-  <object name="粒子效果" x="344" y="277" width="70" height="46">
+  <object name="粒子效果" x="303" y="311" width="70" height="46">
    <ellipse/>
   </object>
  </objectgroup>
  <objectgroup name="游戏炮塔层" width="1" height="1">
-  <object name="炮塔1" x="650" y="295" width="78" height="67">
+  <object name="炮塔1" x="622" y="288" width="37" height="31">
    <ellipse/>
   </object>
-  <object name="炮塔2" x="461" y="23" width="78" height="67">
+  <object name="炮塔2" x="332" y="401" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="457" y="631" width="36" height="34">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="380" y="583" width="37" height="34">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="584" y="660" width="38" height="34">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="585" y="377" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="691" y="423" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="725" y="310" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="910" y="390" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="941" y="261" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="1010" y="333" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="1222" y="428" width="37" height="31">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="332" y="401" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="383" y="235" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="292" y="253" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="172" y="321" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="198" y="118" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔2" x="416" y="59" width="38" height="38">
+   <ellipse/>
+  </object>
+  <object name="炮塔1" x="909" y="66" width="37" height="31">
    <ellipse/>
   </object>
  </objectgroup>
  <objectgroup name="场景骨骼动画层" width="1" height="1">
-  <object name="骨骼动画" x="225" y="383" width="66" height="31">
+  <object name="骨骼动画" x="160" y="427" width="66" height="31">
    <ellipse/>
   </object>
  </objectgroup>

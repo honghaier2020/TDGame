@@ -1,0 +1,54 @@
+
+texiao3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+image 1
+  rotate: true
+  xy: 711, 261
+  size: 274, 193
+  orig: 274, 193
+  offset: 0, 0
+  index: -1
+image 2
+  rotate: false
+  xy: 330, 52
+  size: 307, 441
+  orig: 307, 441
+  offset: 0, 0
+  index: -1
+image 3
+  rotate: false
+  xy: 2, 2
+  size: 326, 491
+  orig: 326, 491
+  offset: 0, 0
+  index: -1
+image 4
+  rotate: false
+  xy: 342, 516
+  size: 323, 490
+  orig: 323, 490
+  offset: 0, 0
+  index: -1
+image 5
+  rotate: false
+  xy: 2, 495
+  size: 338, 511
+  orig: 338, 511
+  offset: 0, 0
+  index: -1
+image 6
+  rotate: false
+  xy: 667, 537
+  size: 293, 469
+  orig: 293, 469
+  offset: 0, 0
+  index: -1
+image 7
+  rotate: false
+  xy: 639, 118
+  size: 70, 396
+  orig: 70, 396
+  offset: 0, 0
+  index: -1
