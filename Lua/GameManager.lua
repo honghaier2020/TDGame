@@ -20,5 +20,5 @@ RefreshMonsterNum=20
 --游戏主界面
 GameMainUI=nil
 GameMap=nil 
---游戏状态   0  建造状态  1 怪物进攻状态 2战斗状态 3战斗结束状态
+--游戏状态   0  建造状态  1 战斗状态 2战斗结束状态
 GameState=0 

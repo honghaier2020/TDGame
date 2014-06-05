@@ -95,13 +95,9 @@ function ShowTimer()
 			 if BuildTime ~= nil then
 				 BuildTime:setStringValue(string.format("%d",buildTimer))
 				if buildTimer==0 then
-				    if GameState==0 then
 					  SetGameState(1)
-					elseif GameState==1 then
-					  SetGameState(2)
-					end
 				end	
-end					
+             end					
 end 	
 function  SelectBuildTowerType(sender, eventType) 
 		  if eventType == ccui.TouchEventType.ended then
@@ -130,12 +126,10 @@ function  SelectBuildTowerType(sender, eventType)
 --检测触摸炮塔
 function TouchTower(touchpos)
       
-	 if  GameState==1 then
-	     return 
-	  elseif GameState==3 then
+	 if GameState==2 then
 	      MoveMap=false
 	    return
-	  end
+	 end
      local cx, cy = GameMap:getPosition()
 	   --检测触摸炮塔
 				local  len     = table.getn(TowerArray)
@@ -149,11 +143,12 @@ function TouchTower(touchpos)
 						if CurSelectTower:getTowerState() ==0 and GameState== 0 then
 						   
 							ShowBuildTowerUI(cc.p(CurSelectTower:GetCurPos().x+cx,CurSelectTower:GetCurPos().y+cy))
-							MoveMap=false
+							--MoveMap=false
 					 --升级塔
-						elseif CurSelectTower:getTowerState() ==1  and GameState==3 then
+						elseif CurSelectTower:getTowerState() ==1  then
 							 cclog("弹出升级塔界面") 
-							 MoveMap=false
+							 CurSelectTower=nil
+							 --MoveMap=true
 						end
 						return 
 					end
@@ -163,37 +158,36 @@ end
 function TouchSkillEffect(touchpos)
    
 	   
-    	     local  len   = table.getn(EffectArray)
-				for i = 0, len-1, 1 do
-					if   EffectArray[i+1]:containsTouchLocation(touchpos.x ,touchpos.y) then 
-					     if  GameState~=2 then
-						    MoveMap=false
-                            return 
-                         end
-						  cclog("触摸到技能图标")
-						  CurSkillEffect=EffectArrays[i+1]
-						  local magicspr=GameMap:getChildByTag(100)
-						   if magicspr ~= nil then
-							  magicspr:setVisible(true);
-							  magicspr:setPosition(location.x-cx ,location.y-cy)
-						   else 
-							   local texture = cc.Director:getInstance():getTextureCache():addImage("res/MagicMatrix.png")
-								magicspr =cc.Sprite:createWithTexture(texture)
-								magicspr:setPosition(location.x-cx ,location.y-cy)
-								magicspr:setAnchorPoint(cc.p(0.5,0.5));
-								magicspr:setOpacity(190);
-								GameMap:addChild(magicspr,10,100);
-								magicspr:setVisible(true);
-						   end
-						   return
-					end
-				end
+    	     -- local  len   = table.getn(EffectArray)
+				-- for i = 0, len-1, 1 do
+					-- if   EffectArray[i+1]:containsTouchLocation(touchpos.x ,touchpos.y) then 
+					     -- if  GameState~=2 then
+						    -- MoveMap=false
+                            -- return 
+                         -- end
+						  -- cclog("触摸到技能图标")
+						  -- CurSkillEffect=EffectArrays[i+1]
+						  -- local magicspr=GameMap:getChildByTag(100)
+						   -- if magicspr ~= nil then
+							  -- magicspr:setVisible(true);
+							  -- magicspr:setPosition(location.x-cx ,location.y-cy)
+						   -- else 
+							   -- local texture = cc.Director:getInstance():getTextureCache():addImage("res/MagicMatrix.png")
+								-- magicspr =cc.Sprite:createWithTexture(texture)
+								-- magicspr:setPosition(location.x-cx ,location.y-cy)
+								-- magicspr:setAnchorPoint(cc.p(0.5,0.5));
+								-- magicspr:setOpacity(190);
+								-- GameMap:addChild(magicspr,10,100);
+								-- magicspr:setVisible(true);
+						   -- end
+						   -- return
+					-- end
+				-- end
 end
 --触摸按下
 function onTouchBegan(touch, event)
 
 				local location = touch:getLocation()
-				cclog("触摸按下: %0.2f, %0.2f", location.x, location.y)
 				touchBeginDown=true
 				touchBeginPoint = location
 				TouchSkillEffect(location)
@@ -201,16 +195,15 @@ function onTouchBegan(touch, event)
 			end
 function onTouchMoved(touch, event)
 				local location = touch:getLocation()
-				cclog("触摸移动: %0.2f, %0.2f", location.x, location.y)
 				touchBeginDown=false
 				if touchBeginPoint then
 					local cx, cy = GameMap:getPosition()
-					   if CurSkillEffect ~= nil then
-							local magicspr=GameMap:getChildByTag(100)
-							if magicspr ~= nil then
-							   magicspr:setPosition(location.x-cx ,location.y-cy)
-							end 	
-					   else 
+					   -- if CurSkillEffect ~= nil then
+							-- local magicspr=GameMap:getChildByTag(100)
+							-- if magicspr ~= nil then
+							   -- magicspr:setPosition(location.x-cx ,location.y-cy)
+							-- end 	
+					   -- else 
 						  if MoveMap == true then
 							   local moveMapX=cx + location.x - touchBeginPoint.x
 							  -- moveMapX = math.min(moveMapX, 0)
@@ -221,13 +214,12 @@ function onTouchMoved(touch, event)
 							   GameMap:setPosition(moveMapX,moveMapY)
 							end
 						 
-					   end
+					   --end
 					touchBeginPoint = location
 				end
 			end
 function onTouchEnded(touch, event)
 				local location = touch:getLocation()
-				  cclog("触摸结束: %0.2f, %0.2f", location.x, location.y)
 				  touchBeginPoint = nil	
 				  if  touchBeginDown ==true then
 				     removeUI(302)
@@ -235,15 +227,15 @@ function onTouchEnded(touch, event)
 					 removeUI(304)
 					 TouchTower(location)
 				  else 
-					   if CurSkillEffect ~= nil then
-						 -- cclog("释放技能") 
-						   local magicspr=GameMap:getChildByTag(100)
-							 if magicspr ~= nil then
-							   magicspr:setVisible(false)
-							 end 
-						 CurSkillEffect:PlaySkillEffect(GameMap,location.x, location.y);
-						 CurSkillEffect=nil
-					  end
+					   -- if CurSkillEffect ~= nil then
+						 -- -- cclog("释放技能") 
+						   -- local magicspr=GameMap:getChildByTag(100)
+							 -- if magicspr ~= nil then
+							   -- magicspr:setVisible(false)
+							 -- end 
+						 -- CurSkillEffect:PlaySkillEffect(GameMap,location.x, location.y);
+						 -- CurSkillEffect=nil
+					  -- end
 				 end       
 	end
 -- 创建地图测试
@@ -291,7 +283,6 @@ function update()
 						       local monsterRect = monster.spineAnimation:getBoundingBox()
 							   monsterRect.x=monsterRect.x+monster:GetCurPos().x
 		                       monsterRect.y=monsterRect.y+monster:GetCurPos().y
-							    cclog("怪物包围盒: %d, %d,%d, %d", monsterRect.x, monsterRect.y,monsterRect.width, monsterRect.height)
 								if cc.rectIntersectsRect(bulletRect,monsterRect) then
 								    table.insert(bulletNeedToDeleteArray,bullet)
 									monster:updateHp(40)
@@ -407,7 +398,7 @@ function  ShowBuildTowerUI(pos)
 			SelectTowerEffect = Effect:create()
 	        SelectTowerEffect:init(GameMainScene)
 			SelectBuildTowerType(TowerIcon1,ccui.TouchEventType.ended)
-			MoveMap=false
+			--MoveMap=false
 end
 --移除界面
 function removeUI(tag)
@@ -433,7 +424,7 @@ end
 			  end
 			  local  Player2Name = gameVictoryUI:getChildByTag(7):getChildByTag(91)
 			   if Player2Name ~= nil then
-			      Player1Name:setText("黑暗幽灵")
+			      Player2Name:setText("黑暗幽灵")
 			  end
 			  local  Player1Hp = gameVictoryUI:getChildByTag(4):getChildByTag(40):getChildByTag(77)
 			   if Player1Hp ~= nil then
@@ -445,15 +436,15 @@ end
 			  end
 			  local   PlayerXP = gameVictoryUI:getChildByTag(32):getChildByTag(59):getChildByTag(65)
 			  if PlayerXP ~= nil then
-			       	 PlayerXP:setStringValue(string.format("%d",100))
+			       	 PlayerXP:setText(string.format("%d",100))
 			  end
 			  local   PlayerGold = gameVictoryUI:getChildByTag(32):getChildByTag(59):getChildByTag(69)
 			  if PlayerGold ~= nil then
-			       	 PlayerGold:setStringValue(string.format("%d",100))
+			       	 PlayerGold:setText(string.format("%d",100))
 			  end
 			  local   PlayerDiamond = gameVictoryUI:getChildByTag(32):getChildByTag(59):getChildByTag(72)
 			    if PlayerDiamond ~= nil then
-			       	 PlayerDiamond:setStringValue(string.format("%d",10))
+			       	 PlayerDiamond:setText(string.format("%d",10))
 			  end
 	         GameMainScene:addChild(gameVictoryUI,0,303)
 			 MoveMap=false
@@ -483,53 +474,7 @@ end
 		  cclog("创建游戏主界面成功")
 	   end
  end
- --创建战士选择框界面
- function createSoldierBarUI()
-      local soldierBarUI = ccs.GUIReader:getInstance():widgetFromJsonFile("res/GameSoldiersUI_1/GameSoldierBarUI.json");
-	  if soldierBarUI ~= nil then 
-	  end
-	return soldierBarUI
- end
 
- --显示选择怪物攻击序列界面
- function ShowSoldiersUI()
-         local soldiersUI = GameMainScene:getChildByTag(305)
-		 if soldiersUI ~= nil then
-		     soldiersUI:setVisible(true)
-		 else
-		    soldiersUI = ccs.GUIReader:getInstance():widgetFromJsonFile("res/GameSoldiersUI_1/GameSoldiersUI_1.json");
-			GameMainScene:addChild(soldiersUI,20,305)
-			 local listView = soldiersUI:getChildByTag(445)
-			  if listView ~= nil then
-		listView:setItemsMargin(2)
-		local default_item = createSoldierBarUI()
-		default_item:setTouchEnabled(true)
-		local itemSize=default_item:getSize()
-		default_item:setScale(0.25)
-		default_item:setSize(cc.size(itemSize.width, 100))
-		listView:setItemModel(default_item)
-				for i = 0,19 do
-					listView:pushBackDefaultItem()
-				 end
-			  end 
-			 --开始出击按钮响应
-		     local StartButton = soldiersUI:getChildByTag(38):getChildByTag(102):getChildByTag(101)
-			  if StartButton ~= nil then
-	               StartButton:addTouchEventListener(StartAttackButtonCallback)
-			  end 
-		 end
- end
- 	 --开始出击按钮响应
-function StartAttackButtonCallback(sender, eventType)
-      if eventType == ccui.TouchEventType.ended then
-            SetGameState(2)
-			local soldiersUI = GameMainScene:getChildByTag(305)
-		    if   soldiersUI ~= nil then
-			    soldiersUI:getEventDispatcher():setEnabled(false)
-		        soldiersUI:setVisible(false)
-           end
-	   end
- end
  --创建游戏场景
 function createGameScene()
     cc.SpriteFrameCache:getInstance():addSpriteFramesWithFile("res/Sprite.plist")
@@ -550,18 +495,13 @@ end
 				    BuildTimeText:setText("炮塔建造阶段")
 					BuildTime:setVisible(true)
 					BuildTimerEntry=cc.Director:getInstance():getScheduler():scheduleScriptFunc(ShowTimer, 1, false)
-		 elseif GameState==1 then
+		elseif GameState==1 then
 		            removeUI(304)	
-		            buildTimer=30
-					ShowSoldiersUI()
-				    BuildTimeText:setText("怪物进攻序列编辑阶段")
-					BuildTime:setVisible(true)
-		elseif GameState==2 then
 		            StartMonsterAttack()
 				    cc.Director:getInstance():getScheduler():unscheduleScriptEntry(BuildTimerEntry)
 				    BuildTimeText:setText("战斗阶段")
 					BuildTime:setVisible(false)
-		elseif GameState==3 then
+		elseif GameState==2 then
 				    BuildTimeText:setText("游戏结束阶段")
 					BuildTime:setVisible(false)
 
