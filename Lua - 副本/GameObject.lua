@@ -13,6 +13,5 @@
 	 function GameObject:init(parentNode) 	
         self.parentNode = parentNode		
 	 end
-	   --移除物体
-function GameObject:removeOblect()
-end
+
+	 

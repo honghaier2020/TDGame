@@ -218,7 +218,7 @@
             "options": {
               "__type": "ImageViewSurrogate:#EditorCommon.JsonModel.Component.GUI",
               "classname": "ImageView",
-              "name": "Image_2",
+              "name": "木系",
               "ZOrder": 0,
               "actiontag": 2,
               "anchorPointX": 0.5,
@@ -272,7 +272,7 @@
             "options": {
               "__type": "ImageViewSurrogate:#EditorCommon.JsonModel.Component.GUI",
               "classname": "ImageView",
-              "name": "Image_5",
+              "name": "金系",
               "ZOrder": 0,
               "actiontag": 5,
               "anchorPointX": 0.5,
@@ -326,7 +326,7 @@
             "options": {
               "__type": "ImageViewSurrogate:#EditorCommon.JsonModel.Component.GUI",
               "classname": "ImageView",
-              "name": "Image_8",
+              "name": "水系",
               "ZOrder": 0,
               "actiontag": 8,
               "anchorPointX": 0.5,
@@ -380,7 +380,7 @@
             "options": {
               "__type": "ImageViewSurrogate:#EditorCommon.JsonModel.Component.GUI",
               "classname": "ImageView",
-              "name": "Image_11",
+              "name": "火系",
               "ZOrder": 0,
               "actiontag": 11,
               "anchorPointX": 0.5,
@@ -434,7 +434,7 @@
             "options": {
               "__type": "ImageViewSurrogate:#EditorCommon.JsonModel.Component.GUI",
               "classname": "ImageView",
-              "name": "Image_13",
+              "name": "土系",
               "ZOrder": 0,
               "actiontag": 13,
               "anchorPointX": 0.5,
@@ -538,7 +538,7 @@
       "classname": "Panel",
       "name": "Panel_14",
       "ZOrder": 0,
-      "actiontag": -1,
+      "actiontag": 3,
       "anchorPointX": 0,
       "anchorPointY": 0,
       "classType": "Panel",

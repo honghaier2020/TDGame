@@ -1,6 +1,6 @@
 require "Cocos2d"
 require "Cocos2dConstants"
-require "Lua/GameScene"
+require "Lua/SoldiersScene"
 -- cclog
 cclog = function(...)
     print(string.format(...))
@@ -18,7 +18,7 @@ local function main()
     collectgarbage("setpause", 100)
     collectgarbage("setstepmul", 5000)
 	cclog("启动游戏")
-    cc.Director:getInstance():runWithScene(GameScene.createGameScene())
+    cc.Director:getInstance():runWithScene(SoldiersScene.createSoldiersScene())
 	
 	
 end

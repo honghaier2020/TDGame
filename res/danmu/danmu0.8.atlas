@@ -1,0 +1,68 @@
+
+danmu0.8-1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dm_0000s_0000_-----4------6
+  rotate: false
+  xy: 65, 2
+  size: 60, 58
+  orig: 60, 58
+  offset: 0, 0
+  index: -1
+dm_0001s_0000_-----4------5
+  rotate: false
+  xy: 2, 62
+  size: 61, 58
+  orig: 61, 58
+  offset: 0, 0
+  index: -1
+dm_0002s_0000_-----4------4
+  rotate: false
+  xy: 2, 2
+  size: 61, 58
+  orig: 61, 58
+  offset: 0, 0
+  index: -1
+dm_0003s_0000_-----4
+  rotate: false
+  xy: 65, 62
+  size: 61, 58
+  orig: 61, 58
+  offset: 0, 0
+  index: -1
+dm_0004s_0000_-----4------2
+  rotate: false
+  xy: 128, 67
+  size: 59, 53
+  orig: 59, 53
+  offset: 0, 0
+  index: -1
+dm_0005s_0000_-----4-----
+  rotate: false
+  xy: 189, 68
+  size: 58, 52
+  orig: 59, 52
+  offset: 1, 0
+  index: -1
+dm_0006s_0000_-----4------3
+  rotate: false
+  xy: 128, 27
+  size: 59, 38
+  orig: 59, 38
+  offset: 0, 0
+  index: -1
+dm_0007s_0000_-----14
+  rotate: false
+  xy: 189, 29
+  size: 35, 37
+  orig: 35, 37
+  offset: 0, 0
+  index: -1
+dm_0008s_0000_-----11
+  rotate: true
+  xy: 226, 36
+  size: 30, 21
+  orig: 30, 21
+  offset: 0, 0
+  index: -1

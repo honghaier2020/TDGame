@@ -1,0 +1,54 @@
+
+aoshu0.8-1.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+as_0001s_0000_----1
+  rotate: true
+  xy: 2, 2
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: -1
+as_0001s_0001_----2
+  rotate: true
+  xy: 105, 10
+  size: 18, 19
+  orig: 18, 19
+  offset: 0, 0
+  index: -1
+as_0001s_0002_----3
+  rotate: true
+  xy: 54, 5
+  size: 15, 18
+  orig: 15, 18
+  offset: 0, 0
+  index: -1
+as_0001s_0003_----4
+  rotate: true
+  xy: 74, 5
+  size: 15, 18
+  orig: 15, 18
+  offset: 0, 0
+  index: -1
+as_0001s_0004_----1------2
+  rotate: true
+  xy: 55, 22
+  size: 6, 48
+  orig: 6, 48
+  offset: 0, 0
+  index: -1
+as_0001s_0005_----2
+  rotate: true
+  xy: 2, 15
+  size: 5, 50
+  orig: 5, 50
+  offset: 0, 0
+  index: -1
+as_0001s_0006_----3
+  rotate: true
+  xy: 2, 22
+  size: 6, 51
+  orig: 6, 51
+  offset: 0, 0
+  index: -1

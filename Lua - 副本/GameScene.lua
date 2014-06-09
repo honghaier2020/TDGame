@@ -1,6 +1,9 @@
 
+require"Lua/MonsterObject"
+require "Lua/MonsterConfig" 
+require"Lua/TowerObject"
+require "Lua/TowerConfig" 
 require "Lua/GamePlayer" 
-require "Lua/SoldiersUI" 
 module("GameScene",package.seeall) 
 local CurSkillEffect=nil 
 local CurSelectTower=nil 
@@ -12,34 +15,57 @@ local MoveMap=true
 local buildTimer=10
 local BuildTimerEntry = nil
 local SelectTowerEffect=nil
---游戏状态   0  建造状态  1怪物进攻战斗序列编辑状态  2战斗状态 3战斗结束状态
+--游戏状态   0  建造状态  1 战斗状态 2战斗结束状态
 local GameState=0
 local GameMap=nil 
 --游戏主界面
 local GameMainUI=nil
 --游戏主场景
 local GameMainScene=nil 
---游戏选择怪物战斗序列UI
-local GameSoldiersUI=nil 
-
+local currentLevel=1
 WinSize = cc.Director:getInstance():getWinSize()
 local Play1Hp=20
 local Play2Hp=20
 local play1HpUI=nil
 local play2HpUI=nil
+local RefreshMonsterNum=20
+local lastTimeTargetAdded = 0
+--怪物数组
+ local MonsterArray = {}
 --效果数组
 local EffectArray = {}
- --炮塔数组
-local BuildTowerPosArray = {}  
+--炮塔数组
+local TowerArray = {}
 --怪物运行路径数组
-local PointArray = {}   
- --选择箭塔的类型       
-local selectBulidTowType=0 
---选择箭塔的位置     
-local selectBulidTowPos=cc.p(0,0) 
+local PointArray = {}
 --子弹数组
+local BulletArray = {}
+--进攻怪物数组
+local WaveArray = {}
 local  GamePlayer1=nil   --游戏玩家1
 local  GamePlayer2=nil   --游戏玩家2
+function getTowerArray()
+	return TowerArray
+end
+function getBulletArray()
+	return BulletArray
+end
+function getMonsterArray()
+	return MonsterArray
+end
+function getPointArray()
+	return PointArray
+end
+local buildTowerPosArray = {}  --建造塔的位置数组
+--增加怪物
+function AddMonster(monsterType)
+     local monster = MonsterObject:create()
+	 monster:init(GameMap)
+	 monster:initMonster(monsterConfig[monsterType],PointArray)
+	 if monster ~= nil then
+	      table.insert(MonsterArray,monster)
+	 end 
+ end  
 --创建地图物件方法测试
 function createMapObject(map,group,tag)
         local  objects = group:getObjects()
@@ -88,16 +114,29 @@ function createMapObject(map,group,tag)
 						end	
 				--创建炮塔
             elseif tag ==3 then
-		        -- local tower = TowerObject:create()
-				 --tower:init(map)
-			      --tower:initTower(x,y)
-				  local initTowerTexture = cc.Director:getInstance():getTextureCache():addImage("res/battle_0003s_0001_skill-resource-counter.png")
-	              local initTower =cc.Sprite:createWithTexture(initTowerTexture)
-				  initTower:setPosition(x, y)
-				  map:addChild(initTower)
-	              table.insert(BuildTowerPosArray,initTower) 				
+		         local tower = {}
+				 tower.pos=cc.p(x,y)
+	             table.insert(buildTowerPosArray,tower) 				
 		    end
 	 end
+end
+		--建造回调函数
+function StartMonsterAttack()
+		 local wave =getCurrentWave() 
+		 if wave ~= nil then
+	      local now = 0
+          if  lastTimeTargetAdded == 0 or now - lastTimeTargetAdded >= wave.spawnRate then
+		        if  wave.totalNum > 0 then
+				   AddMonster(wave.monsterType)
+				   wave.totalNum=wave.totalNum-1
+			       cclog("怪物数目%d",wave.totalNum)
+				else
+				     currentLevel=currentLevel+1 
+					 lastTimeTargetAdded=0
+                end				
+		       lastTimeTargetAdded = now
+		  end 
+         end		  
 end
 --显示时间
 function ShowTimer()
@@ -113,63 +152,59 @@ function ShowTimer()
 end 	
 function  SelectBuildTowerType(sender, eventType) 
 		  if eventType == ccui.TouchEventType.ended then
-				  if SelectTowerEffect ~= nil then
-				     SelectTowerEffect:removeOblect()
+				  if CurSelectTower ~= nil and SelectTowerEffect ~= nil then
 				     SelectTowerEffect:PlaySkillEffect( sender:getWorldPosition().x,sender:getWorldPosition().y-sender:getSize().height/2,true)
-					 if "金系"==sender:getName() then
-					    selectBulidTowType=1
-						 cclog("选择金系塔")
-					 elseif "木系"==sender:getName() then
-					    selectBulidTowType=2
-						 cclog("选择木系塔")
-					 elseif "水系"==sender:getName() then
-					    selectBulidTowType=3
-						 cclog("选择水系塔")
-					 elseif "火系"==sender:getName() then
-					    selectBulidTowType=4
-						 cclog("选择火系塔")
-					 else
-					     selectBulidTowType=5
-						 cclog("选择土系塔")
-					 end
-					 
 				  end
 		   end  
+		   MoveMap=false
 	 end
 --确定建造塔
  function  StartBuildTower(sender, eventType) 
 		  if eventType == ccui.TouchEventType.ended then
-			 if selectBulidTowType ~= 0 then
-				 GamePlayer1:buildTower(TowerConfig[1],selectBulidTowPos)
+			 if CurSelectTower ~= nil then
+				 CurSelectTower:buildTower(TowerConfig[1])
                  removeUI(304)	
                  if SelectTowerEffect ~= nil then
 			       SelectTowerEffect:removeOblect()
 				   SelectTowerEffect=nil
 				    cclog("移除选择塔效果") 
 			     end				 
-				 selectBulidTowType	=0			 
+				 CurSelectTower	=nil	
+				 MoveMap=true			 
 			 end    
 		   end  
  end
 --检测触摸炮塔
 function TouchTower(touchpos)
       
-	 --当前游戏状态不是建造状态
-	 if GameState~=0 then
+	 if GameState==2 then
+	      MoveMap=false
 	    return
 	 end
      local cx, cy = GameMap:getPosition()
 	   --检测触摸炮塔
-				local  len     = table.getn(BuildTowerPosArray)
+				local  len     = table.getn(TowerArray)
 				for i = 0, len-1, 1 do
-				    local rect = BuildTowerPosArray[i+1]:getBoundingBox()
-					local buildTowerPosX, buildTowerPosY= BuildTowerPosArray[i+1]:getPosition()
-					if  cc.rectContainsPoint(rect,cc.p(touchpos.x-cx,touchpos.y-cy)) then 
-						ShowBuildTowerUI(cc.p(buildTowerPosX+cx,buildTowerPosY+cy))
-						selectBulidTowPos=cc.p(buildTowerPosX,buildTowerPosY)
+					if   TowerArray[i+1]:containsTouchLocation(cc.p(touchpos.x-cx,touchpos.y-cy)) then 
+						cclog("触摸到塔了")
+						if CurSelectTower==TowerArray[i+1] then
+						  return 
+					    end
+						CurSelectTower=TowerArray[i+1]
+						if CurSelectTower:getTowerState() ==0 and GameState== 0 then
+						   
+							ShowBuildTowerUI(cc.p(CurSelectTower.towerPos.x+cx,CurSelectTower.towerPos.y+cy))
+							--MoveMap=false
+					 --升级塔
+						elseif CurSelectTower:getTowerState() ==1  then
+							 cclog("弹出升级塔界面") 
+							 CurSelectTower=nil
+							 --MoveMap=true
+						end
 						return 
 					end
 				end
+			  MoveMap=true
 end
 function TouchSkillEffect(touchpos)
    
@@ -282,10 +317,49 @@ function createGameMap()
         listener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED )
         local eventDispatcher = GameMap:getEventDispatcher()
         eventDispatcher:addEventListenerWithSceneGraphPriority(listener, GameMap)
-		
+		--cc.Director:getInstance():getScheduler():scheduleScriptFunc(updae, 0, false)
 		GameMainScene:addChild(GameMap)
     end
-					   
+--游戏更新
+function update()
+	
+		local bulletNeedToDeleteArray ={}
+		local monsterNeedToDeleteArray ={}
+        for i,bullet in pairs(BulletArray)  do
+		          if  nil ~= bullet then
+					 local  bulletRect =bullet:getBoundingBox()
+						 for j,monster in pairs(MonsterArray)  do
+						        local monsterRect = monster.spineAnimation:getBoundingBox()
+								 if cc.rectIntersectsRect(bulletRect,monsterRect) then
+								     table.insert(bulletNeedToDeleteArray,bullet)
+									  monster.hpPercentage=monster.hpPercentage-40
+                                      monster.hpBar:setPercentage(monster.hpPercentage)
+	                                  if monster.hpPercentage <=0 then
+	                                      table.insert(monsterNeedToDeleteArray,monster)
+	                                   end
+								 end
+						  end
+								
+				  end
+	    end
+		 for j,monsterTemp in pairs(monsterNeedToDeleteArray)  do 
+              for k,monsterObject in pairs(MonsterArray)  do
+		          if  nil ~= monsterObject and monsterObject == monsterTemp then
+	                   table.remove(MonsterArray, k)
+					   monsterObject:removeOblect()
+				   end
+		       end			  
+		 end
+		 for j,bulletTemp in pairs(bulletNeedToDeleteArray)  do 
+              for k,bulletObject in pairs(BulletArray)  do
+		          if  nil ~= bulletObject and bulletObject == bulletTemp then
+	                   table.remove(BulletArray, k)
+					   bulletTemp:removeFromParent()
+				   end
+		       end			  
+		 end
+		 bulletNeedToDeleteArray={}
+end							   
          
 	   
 		-- bulletNeedToDeleteArray={}
@@ -325,9 +399,27 @@ function updaePlayerInfoUI()
 	   end
 end
 --更新玩家血条
-function updaePlayerHpUI()
-		play1HpUI:setStringValue(string.format("%d",GamePlayer1.Hp))  
-		play2HpUI:setStringValue(string.format("%d",GamePlayer2.Hp)) 
+function updaePlayerHpUI(hpType,monster)
+       monster:removeOblect()
+       --自己血量
+      if  hpType==0 then
+	      Play1Hp=Play1Hp-1
+		  play1HpUI:setStringValue(string.format("%d",Play1Hp)) 
+	  else 
+	      Play2Hp=Play2Hp-1
+		  play2HpUI:setStringValue(string.format("%d",Play2Hp)) 
+	  end
+	   for k,monsterObject in pairs(MonsterArray)  do
+		         if  nil ~= monsterObject and monsterObject == monster then
+	                  table.remove(MonsterArray, k)
+					  break
+				  end
+	   end	
+	   if  Play2Hp==0 then
+	      showGameVictoryUI()
+	   elseif  Play1Hp==0 then
+	      showGameDefeatedUI()
+	   end
  end
  --显示建造塔界面
 function  ShowBuildTowerUI(pos) 
@@ -364,7 +456,7 @@ function  ShowBuildTowerUI(pos)
 			     SelectTowerEffect:removeOblect()
 			end
 			SelectTowerEffect=nil
-			SelectTowerEffect = EffectObject:create()
+			SelectTowerEffect = Effect:create()
 	        SelectTowerEffect:init(GameMainScene)
 			SelectBuildTowerType(TowerIcon1,ccui.TouchEventType.ended)
 			--MoveMap=false
@@ -451,15 +543,21 @@ function createGameScene()
 	GameMainScene = cc.Scene:create()
 	createGameMap()
 	createGameMainUI()
-	--创建选择战士界面
-	GameMainScene:addChild(SoldiersUI.createUI(),0,101)
-	SoldiersUI.ShowUI(false)
 	updaePlayerInfoUI()
+	cc.Director:getInstance():getScheduler():scheduleScriptFunc(update, 0, false)
 	SetGameState(0)
+	WaveArray[1]={}
+	WaveArray[1].totalNum=2  --怪物数目
+	WaveArray[1].spawnRate=0.3  --怪物数目
+	WaveArray[1].monsterType=1  --怪物数目
+	WaveArray[2]={}
+	WaveArray[2].totalNum=5  --怪物数目
+	WaveArray[2].spawnRate=2.0  --怪物数目
+	WaveArray[2].monsterType=2  --怪物数目
 	GamePlayer1 = GamePlayer:create()
-	GamePlayer1:init(GameMap,0)   --自己玩家
-	GamePlayer2 = GamePlayer:create()
-	GamePlayer2:init(GameMap,1)    --AI玩家
+	GamePlayer1:init(GameMap) 
+	--GamePlayer2 = GamePlayer:create()
+	--GamePlayer2:init(GameMap)
 	return GameMainScene
 end
   --更新游戏状态
@@ -471,57 +569,21 @@ end
 				    BuildTimeText:setText("炮塔建造阶段")
 					BuildTime:setVisible(true)
 					BuildTimerEntry=cc.Director:getInstance():getScheduler():scheduleScriptFunc(ShowTimer, 1, false)
-		
 		elseif GameState==1 then
-		            cc.Director:getInstance():getScheduler():unscheduleScriptEntry(BuildTimerEntry)
-				    BuildTimeText:setText("怪物战斗序列编辑阶段")
-					BuildTime:setVisible(false)
-					SoldiersUI.ShowUI(true)
-		elseif GameState==2 then
-                    --敌方怪物军团进攻
-                     GamePlayer1.WaveArray[1]={}
-	                 GamePlayer1.WaveArray[1].totalNum=1  --怪物数目
-	                 GamePlayer1.WaveArray[1].spawnRate=4.0  --怪物数目
-	                 GamePlayer1.WaveArray[1].monsterType=1  --怪物数目
-	                 GamePlayer1.WaveArray[2]={}
-	                 GamePlayer1.WaveArray[2].totalNum=3 --怪物数目
-	                 GamePlayer1.WaveArray[2].spawnRate=4.0  --怪物数目
-	                 GamePlayer1.WaveArray[2].monsterType=2  --怪物数目	
-                     GamePlayer1.WaveArray[3]={}
-	                 GamePlayer1.WaveArray[3].totalNum=2 --怪物数目
-	                 GamePlayer1.WaveArray[3].spawnRate=4.0  --怪物数目
-	                 GamePlayer1.WaveArray[3].monsterType=2  --怪物数目	
-                     GamePlayer1.WaveArray[4]={}
-	                 GamePlayer1.WaveArray[4].totalNum=0 --怪物数目
-	                 GamePlayer1.WaveArray[4].spawnRate=4.0  --怪物数目
-	                 GamePlayer1.WaveArray[4].monsterType=1  --怪物数目						 
-					function callback()
-			            GamePlayer1:StartMonsterAttack(PointArray) 
-                        GamePlayer2:StartMonsterAttack(PointArray) 						
-			        end
-					--设置游戏的玩家
-					--GamePlayer1:SetGamePlayer(GamePlayer2)
-					--GamePlayer2:SetGamePlayer(GamePlayer1)
-					--怪物军团开始进攻
-					cc.Director:getInstance():getScheduler():scheduleScriptFunc(callback, 2, false)
-				   
+		            removeUI(304)	
+					cc.Director:getInstance():getScheduler():scheduleScriptFunc(StartMonsterAttack, 2, false)
+				    cc.Director:getInstance():getScheduler():unscheduleScriptEntry(BuildTimerEntry)
 				    BuildTimeText:setText("战斗阶段")
 					BuildTime:setVisible(false)
-		elseif GameState==3 then
+		elseif GameState==2 then
 				    BuildTimeText:setText("游戏结束阶段")
 					BuildTime:setVisible(false)
 
 		end 
  end
- --设置玩家进攻怪物军团数组
-  function SetAttackMonsterArray(monsterInfoArray)
-            for i,monsterInfo in pairs(monsterInfoArray)  do
-		          if  nil ~= monsterInfo then
-				       GamePlayer2.WaveArray[i]={}
-					   GamePlayer2.WaveArray[i].totalNum=monsterInfo.soldierNum
-	                   GamePlayer2.WaveArray[i].spawnRate=4.0  
-	                   GamePlayer2.WaveArray[i].monsterType=monsterInfo.soldierType+1
-				  end
-			end
-	       SetGameState(2)   
-  end
+ function getCurrentWave()
+     if currentLevel >3 then
+	   return nil
+	 end 
+     return   WaveArray[currentLevel]
+ end
